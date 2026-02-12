@@ -14,11 +14,11 @@ const Restaurant = sequelize.define('restaurant', {
     },
     category : { 
         type : DataTypes.STRING,
-        allowNull : false,
+        allowNull : true,
     },
     image_url : {
         type : DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
     },
 });
 export default Restaurant;
