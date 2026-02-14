@@ -7,11 +7,12 @@ import { protect } from "./middlewares/authMiddleware.js";
 import restaurantRoutes from "./routes/restaurantRoutes.js";
 import menuItemRoutes from "./routes/menuItemRoutes.js"
 import orderRoutes from "./routes/orderRoutes.js";
+import morgan from "morgan";
 
 dotenv.config();
 
 const app = express();
-
+app.use(morgan("dev"));
 app.use(cors());
 app.use(express.json());
 
@@ -35,7 +36,7 @@ const startServer = async () => {
 
     console.log("Models synced");
 
-    app.listen(PORT, () =>
+    app.listen(PORT, "0.0.0.0", () =>
       console.log(`Server running on port ${PORT}`)
     );
   } catch (error) {
