@@ -1,9 +1,18 @@
+import { Button } from "@react-navigation/elements";
 import { View, Text, StyleSheet } from "react-native";
+import { router } from "expo-router";
 
 export default function Home() {
   return (
     <View style={styles.container}>
       <Text>CasaLivraison App </Text>
+      <Text>Welcome to the home screen!</Text>
+      <Button
+        style={styles.button}
+        onPress={() => router.push("/login")} >
+        <Text style={styles.buttonText}>Go to Login</Text>
+      </Button>  
+
     </View>
   );
 }
