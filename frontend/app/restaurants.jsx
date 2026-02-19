@@ -18,8 +18,14 @@ export default function RestaurantsScreen() {
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["restaurants"],
     queryFn: async () => {
-      const response = await api.get("/restaurants");
-      return response.data;
+      try {
+        const response = await api.get("/restaurants");
+        console.log("Restaurants response:", response.data);
+        return response.data;
+      } catch (err) {
+        console.log("Restaurants fetch error:", err);
+        throw err;
+      }
     },
   });
 
@@ -36,7 +42,15 @@ export default function RestaurantsScreen() {
     return (
       <View style={styles.center}>
         <Text>Error loading restaurants</Text>
-        <Text>{error.message}</Text>
+        <Text>{error?.message || "Unknown error"}</Text>
+      </View>
+    );
+  }
+
+  if (!data || data.length === 0) {
+    return (
+      <View style={styles.center}>
+        <Text>No restaurants available</Text>
       </View>
     );
   }
