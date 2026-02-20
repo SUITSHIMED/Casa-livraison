@@ -5,7 +5,8 @@ import {
   TextInput,
   StyleSheet,
   Alert,
-  TouchableOpacity
+  TouchableOpacity,
+  StatusBar
 } from "react-native";
 
 import { router } from "expo-router";
@@ -19,13 +20,13 @@ export default function RegisterScreen() {
 
   const [loading, setLoading] = useState(false);
 
-
   const handleRegister = async () => {
 
     if (!name || !email || !password) {
       Alert.alert("Error", "Fill all fields");
       return;
     }
+
     try {
 
       setLoading(true);
@@ -57,15 +58,22 @@ export default function RegisterScreen() {
 
     <View style={styles.container}>
 
+      <StatusBar barStyle="dark-content" />
+
       <Text style={styles.title}>
-        Register
+        Create Account
+      </Text>
+
+      <Text style={styles.subtitle}>
+        Join CasaLivraison today
       </Text>
 
       <TextInput
-        placeholder="Name"
+        placeholder="Full Name"
         value={name}
         onChangeText={setName}
         style={styles.input}
+        placeholderTextColor="#999"
       />
 
       <TextInput
@@ -73,6 +81,8 @@ export default function RegisterScreen() {
         value={email}
         onChangeText={setEmail}
         style={styles.input}
+        placeholderTextColor="#999"
+        keyboardType="email-address"
       />
 
       <TextInput
@@ -80,21 +90,25 @@ export default function RegisterScreen() {
         value={password}
         onChangeText={setPassword}
         secureTextEntry
-        style={styles.input} />
+        style={styles.input}
+        placeholderTextColor="#999"
+      />
 
       <TouchableOpacity
-        title={loading ? "Creating..." : "Register"}
         onPress={handleRegister}
         style={styles.button}
+        activeOpacity={0.8}
       >
-        <Text style={styles.buttonText}>{loading ? "Creating..." : "Register"}</Text>
+        <Text style={styles.buttonText}>
+          {loading ? "Creating..." : "Register"}
+        </Text>
       </TouchableOpacity>
 
       <TouchableOpacity
         onPress={() => router.push("/login")}
       >
         <Text style={styles.link}>
-          Already have account? Login
+          Already have an account? Login
         </Text>
       </TouchableOpacity>
 
@@ -104,47 +118,61 @@ export default function RegisterScreen() {
 
 }
 
-
 const styles = StyleSheet.create({
 
   container: {
     flex: 1,
+    backgroundColor: "#fff",
     justifyContent: "center",
-    padding: 20,
+    paddingHorizontal: 25,
   },
 
   title: {
-    fontSize: 24,
-    marginBottom: 20,
+    fontSize: 28,
+    fontWeight: "bold",
+    color: "#ffa600",
     textAlign: "center",
+    marginBottom: 5,
+  },
+
+  subtitle: {
+    fontSize: 15,
+    color: "#777",
+    textAlign: "center",
+    marginBottom: 30,
   },
 
   input: {
-    borderWidth: 1,
-    padding: 10,
+    backgroundColor: "#f9f9f9",
+    paddingVertical: 14,
+    paddingHorizontal: 15,
+    borderRadius: 8,
     marginBottom: 15,
-    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: "#eee",
+    fontSize: 15,
+  },
+
+  button: {
+    backgroundColor: "#28a745",
+    paddingVertical: 15,
+    borderRadius: 8,
+    alignItems: "center",
+    marginTop: 10,
+    elevation: 2,
+  },
+
+  buttonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
   },
 
   link: {
-    marginTop: 15,
+    marginTop: 20,
     textAlign: "center",
-    color: "blue",
+    color: "#ffa600",
+    fontWeight: "600",
   },
-button: {
-    backgroundColor: "#ffa600",
-    padding: 10,
-    borderRadius: 5,
-    alignItems: "center",
-  },
-buttonText: {
-    color: "white",
-    fontWeight: "bold",},
-registerButton: {
-    backgroundColor: "#28a745",
-    padding: 10,
-    borderRadius: 5,
-    marginTop: 15,
-  },
-});
 
+});

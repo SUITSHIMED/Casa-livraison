@@ -4,7 +4,8 @@ import { createRestaurant ,
          getRestaurantById ,
          updateRestaurant,
          deleteRestaurant } from "../controllers/restaurantController.js";  
-import { protect } from "../middlewares/authMiddleware.js";         
+import { protect } from "../middlewares/authMiddleware.js";    
+     
 
          const router = express.Router();
 
