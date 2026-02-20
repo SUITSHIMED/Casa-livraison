@@ -22,7 +22,7 @@ The app allows users to browse restaurants, view menus, and place orders securel
 A full explanation of the project architecture, backend, frontend, database, and data flow is available here:
 
 👉 **Canva Presentation:**  
-*(Link )*
+*[(Link )](https://www.canva.com/design/DAHB4hag7uI/kG4uizSXcwCZCc5aoBbeiA/edit?utm_content=DAHB4hag7uI&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)*
 
 ## 🚀 Features
 
@@ -168,6 +168,7 @@ GET /orders/my
 This diagram represents the database structure and relationships between entities.
 
 ![CasaLivraison UML Diagram]
+<img width="553" height="863" alt="classDiagram" src="https://github.com/user-attachments/assets/fb11b644-c6b4-42b1-8969-7f6e40750d81" />
 
 ---
 
