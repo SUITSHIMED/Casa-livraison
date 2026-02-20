@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Alert,
   TouchableOpacity,
+  StatusBar,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -43,11 +44,15 @@ export default function LoginScreen() {
         email: email,
         password: password,
       });
+
       console.log("Login success:", response.data);
+
       if (response.data.token) {
         await AsyncStorage.setItem("authToken", response.data.token);
       }
+
       Alert.alert("Success", "Login successful");
+
       router.replace("/restaurants");
 
     } catch (error) {
@@ -71,8 +76,14 @@ export default function LoginScreen() {
   return (
     <View style={styles.container}>
 
+      <StatusBar barStyle="dark-content" />
+
       <Text style={styles.title}>
-        CasaLivraison Login
+        Welcome Back
+      </Text>
+
+      <Text style={styles.subtitle}>
+        Login to CasaLivraison
       </Text>
 
       <TextInput
@@ -80,6 +91,8 @@ export default function LoginScreen() {
         value={email}
         onChangeText={setEmail}
         style={styles.input}
+        placeholderTextColor="#999"
+        keyboardType="email-address"
       />
 
       <TextInput
@@ -88,21 +101,27 @@ export default function LoginScreen() {
         onChangeText={setPassword}
         secureTextEntry
         style={styles.input}
+        placeholderTextColor="#999"
       />
 
       <TouchableOpacity
-        title={loading ? "Logging in..." : "Login"}
         onPress={handleLogin}
-        style={styles.button}
+        style={styles.loginButton}
+        activeOpacity={0.8}
       >
-        <Text style={styles.buttonText}>{loading ? "Logging in..." : "Login"}</Text>
+        <Text style={styles.loginButtonText}>
+          {loading ? "Logging in..." : "Login"}
+        </Text>
       </TouchableOpacity>
+
       <TouchableOpacity
-        title="Don't have an account? Register"
         onPress={() => router.push("/register")}
         style={styles.registerButton}
+        activeOpacity={0.8}
       >
-        <Text style={styles.registerButtonText}>Dont have an account? Register</Text>
+        <Text style={styles.registerButtonText}>
+          Dont have an account? Register
+        </Text>
       </TouchableOpacity>
 
     </View>
@@ -113,43 +132,65 @@ const styles = StyleSheet.create({
 
   container: {
     flex: 1,
+    backgroundColor: "#fff",
     justifyContent: "center",
-    padding: 20,
+    paddingHorizontal: 25,
   },
 
   title: {
-    fontSize: 24,
-    marginBottom: 20,
+    fontSize: 28,
+    fontWeight: "bold",
+    color: "#ffa600",
     textAlign: "center",
+    marginBottom: 5,
+  },
+
+  subtitle: {
+    fontSize: 15,
+    color: "#777",
+    textAlign: "center",
+    marginBottom: 30,
   },
 
   input: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    padding: 10,
+    backgroundColor: "#f9f9f9",
+    paddingVertical: 14,
+    paddingHorizontal: 15,
+    borderRadius: 8,
     marginBottom: 15,
-    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: "#eee",
+    fontSize: 15,
   },
-  button: {
+
+  loginButton: {
     backgroundColor: "#ffa600",
-    padding: 15,
-    borderRadius: 5,
+    paddingVertical: 15,
+    borderRadius: 8,
+    alignItems: "center",
+    marginTop: 10,
+    elevation: 2,
   },
+
+  loginButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+
   registerButton: {
     backgroundColor: "#28a745",
-    padding: 15,
-    borderRadius: 5,
-    marginTop: 10,
+    paddingVertical: 15,
+    borderRadius: 8,
+    alignItems: "center",
+    marginTop: 12,
+    elevation: 2,
   },
-  buttonText: {
-    color: "white",
-    textAlign: "center",
-    fontWeight: "bold",
-  },
+
   registerButtonText: {
-    color: "white",
-    textAlign: "center",
+    color: "#fff",
+    fontSize: 15,
     fontWeight: "bold",
-  }
+  },
 
 });

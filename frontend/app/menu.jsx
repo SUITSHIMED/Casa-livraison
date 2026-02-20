@@ -10,6 +10,7 @@ import {
   ActivityIndicator,
   StyleSheet,
   Image,
+  StatusBar,
 } from "react-native";
 
 export default function MenuScreen() {
@@ -22,14 +23,14 @@ export default function MenuScreen() {
       const response = await api.get(`/menuItem/restaurant/${restaurantId}`);
       return response.data;
     },
-    enabled: !!restaurantId, 
+    enabled: !!restaurantId,
   });
 
   if (isLoading) {
     return (
       <View style={styles.center}>
-        <ActivityIndicator size="large" />
-        <Text>Loading menu...</Text>
+        <ActivityIndicator size="large" color="#ffa600" />
+        <Text style={styles.loadingText}>Loading menu...</Text>
       </View>
     );
   }
@@ -37,7 +38,7 @@ export default function MenuScreen() {
   if (isError) {
     return (
       <View style={styles.center}>
-        <Text>Error loading menu</Text>
+        <Text style={styles.errorText}>Error loading menu</Text>
         <Text>{error.message}</Text>
       </View>
     );
@@ -47,6 +48,7 @@ export default function MenuScreen() {
     return (
       <TouchableOpacity
         style={styles.card}
+        activeOpacity={0.85}
         onPress={() =>
           router.push({
             pathname: "/order",
@@ -64,19 +66,29 @@ export default function MenuScreen() {
             style={styles.image}
           />
         )}
-        <Text style={styles.name}>{item.name}</Text>
-        <Text style={styles.price}>{item.price} MAD</Text>
-        {item.ingredients && (
-          <Text style={styles.ingredients}>
-            {item.ingredients}
-          </Text>
-        )}
+
+        <View style={styles.content}>
+          
+          <View style={styles.row}>
+            <Text style={styles.name}>{item.name}</Text>
+            <Text style={styles.price}>{item.price} MAD</Text>
+          </View>
+
+          {item.ingredients && (
+            <Text style={styles.ingredients} numberOfLines={2}>
+              {item.ingredients}
+            </Text>
+          )}
+
+        </View>
       </TouchableOpacity>
     );
   };
 
   return (
     <View style={styles.container}>
+
+      <StatusBar barStyle="dark-content" />
 
       <Text style={styles.title}>Menu</Text>
 
@@ -85,6 +97,7 @@ export default function MenuScreen() {
         keyExtractor={(item) => item.id.toString()}
         renderItem={renderItem}
         contentContainerStyle={{ paddingBottom: 20 }}
+        showsVerticalScrollIndicator={false}
       />
 
     </View>
@@ -96,13 +109,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    padding: 16,
+    paddingHorizontal: 16,
+    paddingTop: 10,
   },
 
   title: {
-    fontSize: 24,
+    fontSize: 26,
     fontWeight: "bold",
-    marginBottom: 16,
+    color: "#ffa600",
+    marginBottom: 15,
   },
 
   center: {
@@ -111,35 +126,60 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 
+  loadingText: {
+    marginTop: 10,
+    color: "#666",
+  },
+
+  errorText: {
+    fontSize: 16,
+    color: "red",
+    marginBottom: 5,
+  },
+
   card: {
-    backgroundColor: "#f2f2f2",
-    padding: 16,
-    borderRadius: 10,
-    marginBottom: 12,
+    backgroundColor: "#fff",
+    borderRadius: 12,
+    marginBottom: 15,
+    overflow: "hidden",
+    elevation: 3,
+    borderWidth: 1,
+    borderColor: "#eee",
   },
 
   image: {
     width: "100%",
-    height: 200,
-    borderRadius: 8,
-    marginBottom: 8,
+    height: 160,
+  },
+
+  content: {
+    padding: 12,
+  },
+
+  row: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
 
   name: {
-    fontSize: 18,
+    fontSize: 17,
     fontWeight: "bold",
+    color: "#222",
+    flex: 1,
+    marginRight: 10,
   },
 
   price: {
     fontSize: 16,
-    color: "green",
-    marginTop: 4,
+    fontWeight: "bold",
+    color: "#28a745",
   },
 
   ingredients: {
     fontSize: 14,
-    color: "gray",
-    marginTop: 4,
+    color: "#777",
+    marginTop: 6,
   },
 
 });
